@@ -88,7 +88,7 @@ namespace ShopOnline.Api.Controllers
                 var newCartTtemDto = newCartItem.ConvertToDto(product);
                 return CreatedAtAction(nameof(GetItem), new {id = newCartTtemDto.Id}, newCartTtemDto);
             }
-            catch (Exception)
+            catch (Exception ex)
             {
 
                 return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
