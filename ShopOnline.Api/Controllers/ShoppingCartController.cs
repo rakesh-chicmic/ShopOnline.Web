@@ -70,5 +70,29 @@ namespace ShopOnline.Api.Controllers
                 throw;
             }
         }
+
+        [HttpPost]
+        public async Task<ActionResult<CartItemDto>> PostItem([FromBody] CartItemToAddDto cartItemToAddDto)
+        {
+            try
+            {
+                var newCartItem = await _shoppingCartRepository.AddItem(cartItemToAddDto);
+                if(newCartItem == null)
+                {
+                    return NoContent();
+                }
+                var product = await _productRepository.GetItem(newCartItem.ProductId);
+                if(product == null) {
+                    throw new Exception($"Something went wrong when attempting to retrieve product (productId : ({cartItemToAddDto.ProductId})");             
+                }
+                var newCartTtemDto = newCartItem.ConvertToDto(product);
+                return CreatedAtAction(nameof(GetItem), new {id = newCartTtemDto.Id}, newCartTtemDto);
+            }
+            catch (Exception)
+            {
+
+                return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
+            }
+        }
     }
 }
