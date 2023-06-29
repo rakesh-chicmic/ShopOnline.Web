@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using ShopOnline.Api.Entities;
 using ShopOnline.Api.Extensions;
 using ShopOnline.Api.Repositories.Contracts;
 using ShopOnline.Models.Dtos;
@@ -60,6 +61,8 @@ namespace ShopOnline.Api.Controllers
                 {
                     return NotFound();
                 }
+                var cartItemDto = cartItem.ConvertToDto(product);
+                return Ok(cartItemDto);
             }
             catch (Exception)
             {
