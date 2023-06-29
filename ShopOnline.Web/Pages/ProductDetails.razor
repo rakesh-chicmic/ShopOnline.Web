@@ -2,11 +2,11 @@
 @inherits ProductDetailsBase
 
 @if(Product == null && ErrorMesaage == null){
-    <h3>Loading product details....</h3>
+    <DisplaySpinner />
 }
 else if(ErrorMesaage!=null)
 {
-    <h3  class="text-danger">@ErrorMesaage</h3>
+   <DisplayError ErrorMessage="@ErrorMesaage"></DisplayError>
 }
 else
 {
